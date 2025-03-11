@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Title -->
+        <title>PONG | · |</title>
+        
+        <!-- Favicon (16x16, 32x32 y .ico) -->
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+        <link rel="icon" href="images/favicon.ico">
+
+        <!-- Icono para dispositivos Apple (iPhone, iPad) -->
+        <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+        <!-- Iconos para dispositivos Android -->
+        <link rel="icon" type="image/png" sizes="192x192" href="images/android-chrome-192x192.png">
+        <link rel="icon" type="image/png" sizes="512x512" href="images/android-chrome-512x512.png">
+
+        <!-- Manifesto de la Web (site.webmanifest) -->
+        <link rel="manifest" href="site.webmanifest">
+
+
+        <!-- Bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.6.0/css/flag-icon.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+        <!-- CSS Styles -->
+        <link rel="stylesheet" href="style/index.css">
+        <link rel="stylesheet" href="style/pong.css">
+        <link rel="stylesheet" href="style/settings.css">
+        <link rel="stylesheet" href="style/login.css">
+        <link rel="stylesheet" href="style/register.css">
+        <link rel="stylesheet" href="style/info.css">
+        <link rel="stylesheet" href="style/game.css">
+        <link rel="stylesheet" href="style/tournament.css">
+    </head>
+    
+    <body>
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg shadow-sm">
+            <div class="container-fluid">
+
+                <!-- Navbar brand -->
+                <a class="navbar-brand" data-key="navbarBrand" id="homeButton" onclick="PageManager.load('login')">PONG</a>
+                
+                <!-- Navbar toggler -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <!-- Navbar links -->
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav" style="display: none;">
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="PageManager.load('tournament')" data-key="tournament">Tournament</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="PageManager.load('info')" data-key="info">Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="loadSettings('settings')" data-key="settings">Settings</a>
+                        </li>
+                    </ul>
+                    <select onchange="setLanguage(this.value)" class="login-language-select" id="loginLanguage">
+                        <option value="en" class="flag-icon flag-icon-us"> English</option>
+                        <option value="es" class="flag-icon flag-icon-es"> Español</option>
+                        <option value="fr" class="flag-icon flag-icon-fr"> Français</option>
+                    </select>                    
+                    <div class="button-container" id="auth-container">
+                        <button class="btn login-button" onclick="PageManager.load('login')" data-key="login">Log in</button>
+                        <button class="btn signup-button" onclick="PageManager.load('register')" data-key="signup_button">Sign up</button>
+                    </div>
+
+                </div>
+            </div>
+        </nav>    
+
+        <!-- Dynamic content -->
+        <div class="content-container" id="content-container">
+        </div>
+        
+        <!-- Game -->
+        <div id="game" style="display: none;">
+            <div class="game-boosts" id="gameBoosts">
+                <div class="game-boosts-container">
+                    <p><p>
+                    <button></button>
+                </div>
+                <div class="game-boosts-container">
+                    <p></p>
+                    <button></button>
+                </div>
+            </div>
+            <div id="score">
+                <h1 id="player1Score">0</h1>
+                <h1 id="player2Score">0</h1>
+            </div>
+
+            <h1 id="debugMessage" class="paused winner"></h1>
+            <id id="canvasBorder" class="canvas-border">
+                <canvas id="pongCanvas" width="800" height="400"></canvas>
+            </id>
+        </div>
+
+        <!-- Footer -->
+        <footer class="py-3">
+            <div class="container">
+                <p class="m-0">Copyright &copy; Pong 2025</p>
+            </div>
+        </footer>
+    
+    </body>
+    <script src="app.js"></script>
+    <script src="script/helper.js"></script>
+    <script src="script/sound.js"></script>
+    <script src="script/keyboardHandler.js"></script>
+    <script src="script/gameCustomization.js"></script>
+    <script src="script/settings.js"></script>
+    <script src="script/pong.js"></script>
+    <script src="script/login.js"></script>
+    <script src="script/onLoad.js"></script>
+    <script src="script/gameSetUp.js"></script>
+    <script src="script/tournamentSetUp.js"></script>
+</html>

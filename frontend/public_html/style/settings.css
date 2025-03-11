@@ -1,0 +1,402 @@
+.settings {
+    margin: 20px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff2f2;
+}
+
+.settings h2 {
+    font-family: 'retro';
+    font-weight: bold;
+    margin: 10px 10px 10px 0px;
+}
+
+.settings-header-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.settings-header-icons-elem {
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin-left: 5px;
+}
+
+/* Estilo para el select */
+.language-select, .login-language-select {
+    background-color: rgba(255, 254, 254, 0.827);
+    border: 1px solid #ccc;
+    font-size: 16px;
+    cursor: pointer;
+    color: black;
+    font-weight: bold;
+    margin: 10px 5px 10px 5px;
+    border-radius: 50px;
+    padding: 5px;
+}
+
+/* Estilo para las opciones dentro del select */
+.language-select option, .login-language-select option {
+    font-size: 16px;
+    color: black;
+    background-color: #fff;
+    font-size: 16px;
+}
+
+.login-language-select option{
+    background-color: rgba(255, 254, 254, 0.827);
+}
+
+.language-select::-ms-expand, .language-select option:checked {
+    color: black;
+    background-color: rgba(255, 254, 254, 0.827);
+}
+
+/* Cambiar el color del texto y fondo de las opciones */
+.language-select option, .login-language-select option {
+    font-size: 16px;
+    color: black;
+    background-color: rgba(255, 254, 254, 0.827);
+}
+
+
+/* -- BALL SIZE -- */
+/* progress bars */
+.form-range::-webkit-slider-runnable-track {
+    height: 8px;
+    border-radius: 10px;
+}
+
+.form-range::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #5900ff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 5px #5900ff;
+    transition: background-color 0.3s ease;
+}
+
+.form-range:active::-webkit-slider-thumb {
+    background: #5900ff;
+}
+
+/* progress bar labels */
+.size-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.size-labels span {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* -- BALL SPEED -- */
+.ball-speed {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ball-speed h5, .size-picker h5, .color-picker h5, .background-picker h5 {
+    font-family: 'retro';
+    margin: 10px;
+}
+
+.speed-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.speed-labels span {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.color-option {
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border: 2px solid white;
+}
+
+.color-option.selected {
+    border: 2px solid #f4a6b1;  /* Borde negro cuando está seleccionado */
+    transform: scale(1.2);    /* Aumenta un poco el tamaño del botón seleccionado */
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+}
+
+
+/* -- BACKGROUND PICKER -- */
+.background-options {
+    display: flex;
+    justify-content: space-between;
+    height: fit-content;
+    gap: 15px;
+    margin: 20px;
+}
+
+.background-option {
+    border: 2px solid transparent;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, border 0.3s ease;
+    border: 2px solid white;
+}
+
+.background-option:hover {
+    transform: scale(1.2);
+}
+
+.background-option.selected {
+    border: 3px solid #e2a66b;
+    transform: scale(1.2);
+}
+
+/* PROFILE EDITOR */
+.account-settings {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    margin: 0;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.account-settings-forms {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 10px;
+}
+
+.account-settings-forms  form {
+    display: flex;
+    flex-direction: column;
+}
+
+.account-settings input {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    background: #41414e;
+    margin: 4px 10px 4px 0px;
+    color: #fff2f2;
+    width: fit-content;
+}
+
+.account-settings input.disabled {
+    color: #fff2f2;
+}
+
+.account-settings label {
+    font-size: 1rem;
+    margin: 4px 10px 4px 0px;
+    color: #fff2f2;
+    font-weight: bolder;
+}
+
+.account-settings form button {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #111111;
+    background: #f4a6b1;
+    margin: 4px 10px 4px 0px;
+    color: #161618;
+    max-width: 100px;
+}
+
+.account-settings form button:hover{
+    background: #f5f598;
+}
+
+.settings-group {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+}
+
+.danger-zone {
+    padding: 10px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: start;
+    width: 100%;
+    gap: 30px;
+}
+
+.delete-btn, .logout-btn {
+    width: fit-content;
+    padding: 10px;
+    color: #161618;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.delete-btn {
+    background: #B63A4B;
+    border: 2px solid #5e1f27;
+}
+
+.delete-btn:hover {
+    background: rgb(211, 72, 90);
+    color: #5e1f27;
+}
+
+
+/* DISPOSITIVOS MÓVILES */
+@media (max-width: 768px) {
+    .settings-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .settings-header h2 {
+        margin: 15px;
+    }
+
+    .settings-header-icons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .settings-header-icons-elem {
+        font-size: 1.5rem;
+    }
+
+    .settings-options {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+    .form-range {
+        width: 90%;
+        margin: 5px;
+    }
+
+    #navbarNav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .login-language-select {
+        display: flex;
+        justify-content: center;
+    
+    }
+    
+
+    .language-select {
+        margin-top: 10px;
+    }
+
+    .ball-speed, .size-picker, .color-picker, .background-picker {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .ball-speed .speed-labels,
+    .size-labels {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .ball-speed {
+        width: 100% !important;
+    }
+
+    .size-labels, .speed-labels, .ball-speed  {
+        width: 90%;
+    }
+
+    .account-settings-forms {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 0px;
+    }
+
+    .account-settings input {
+        width: 100%;
+    }
+    .account-settings form {
+        margin: 15px;
+    }
+    .settings-group {
+        flex-wrap: wrap;
+    }
+
+    .account-settings form button {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .danger-zone {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .delete-btn, .logout-btn {
+        width: 90%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 400px) {
+    .settings h2 {
+        text-align: center;
+        width: 93%;
+    }
+
+    .settings hr {
+        margin: 5px;
+    }
+    .color-options {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .settings .color-option {
+        width: 20px;
+        height: 20px;
+    }
+
+    .background-option {
+        width: 30px;
+        height: 30px;
+    }
+
+}

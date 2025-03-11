@@ -1,0 +1,100 @@
+/* MAIN CONTAINER */
+.loginButton {
+    font-weight: bold;
+    text-decoration: none;
+    color: #161618;
+}
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 20px;
+    font-weight: bold;
+    width: fit-content;
+}
+
+.register-box {
+    background: #fff2f2;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-box h2 {
+    font-family: 'retro';
+}
+
+.register-box h2, .register-elem label{
+    color: #161618;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.register-box span {
+    color: #161618;
+}
+
+.register-already-account {
+    font-weight: lighter;
+}
+
+.register-elem {
+    text-align: left;
+    font-weight: bold;
+    margin: 15px 0px 15px 0px;
+}
+
+.input-container {
+    position: relative;
+}
+
+.register-form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 2px solid #b2afb1;
+    background-color: #fff2f2;
+    color: #161618;
+    font-size: 1rem;
+}
+
+.register-form-control:focus {
+    outline: none;
+    border-color: #41414e;
+    background-color: #fff2f2;
+}
+
+.register-form-control::placeholder {
+    color: #54545f;   
+}
+
+#toggleNewPassword, #toggleConfirmPassword {
+    position: absolute;
+    top: 38%;
+    right: 13px;
+    transform: translateY(-50%);
+    color: #41414e;
+    cursor: pointer;
+}
+
+.btn-dark {
+    background-color: #161618;
+    color: #fff2f2;
+}
+.btn-dark:hover {
+    background-color: #41414e;
+}
+
+.btn-hover {
+    background-color: #f5f598;
+    transition: background-color 0.3s ease-in-out;
+    color: #fff2f2;
+    font-weight: bold;
+}
+
+.btn-hover:hover {
+    background-color: #b2afb1;
+}
+

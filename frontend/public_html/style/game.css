@@ -1,0 +1,395 @@
+.game-selection{
+    /* background-color: #2c2c33; */
+    margin: 20px 50px 20px 50px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+
+.game-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+    padding: 10px 10px 0px 10px;
+}
+
+.game-selection h3 {
+    font-family: 'retro';
+    color: #FFF2F2;
+    text-align: center;
+    padding: 25px 10px 10px 10px;
+}
+
+.boost-enable {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 18px;
+    font-family: 'retro', sans-serif;
+    color: white;
+}
+
+.boost-enable span {
+    font-family: 'retro';
+    font-size: small;
+}
+
+/* Switch boost */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Estilo del fondo del switch */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #b2afb1;
+    transition: 0.4s;
+    border-radius: 26px;
+}
+
+/* Círculo dentro del switch */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+/* Estado ON */
+input:checked + .slider {
+    background-color: #70B8B1;
+}
+
+/* Activado */
+input:checked + .slider:before {
+    transform: translateX(23px);
+    background-color: #f5f598;
+}
+
+/* Deshabilitado */
+.switch input:disabled + .slider {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+.switch input:disabled + .slider:before {
+    background-color: #aaa; 
+}
+
+hr {
+    background-color:  #41414e;
+}
+
+.game-selection hr {
+    width: 90%;
+    margin: 0;
+    border: 1px solid #FFF2F2;
+}
+
+.game-selection-options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    gap: 20px;
+    padding: 20px;
+}
+
+.game-selection-option h4 {
+    font-family: 'retro';
+    color: #FFF2F2;
+    border-radius: 20px;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.game-selection-option-players {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Estilos para los botones hexagonales */
+.option-btn {
+    position: relative;
+    font-size: 18px;
+    font-weight: bolder;
+    color: #161618;
+    width: 80px;
+    height: 80px;
+    background-color: #b2afb1;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.option-btn:hover {
+    background-color: #f5f598;
+    transform: scale(1.07);
+}
+/* Botón seleccionado */
+.button-selected {
+    background-color: #70B8B1 !important;
+}
+
+/* Botón deshabilitado */
+button:disabled {
+    background-color: #ccc;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+button:disabled:hover {
+    background-color: #ccc;
+}
+
+/* Si un botón está deshabilitado y seleccionado, mantener el color de selección */
+button.button-selected:disabled {
+    background-color: #70B8B1 !important;
+}
+
+/* START BUTTON */
+.game-selection-start button {
+    font-family: 'retro';
+    letter-spacing: 2px;
+    font-size: 1.5rem;
+    color: #41414e;
+    background-color: #b2b1af;
+    border: 2px solid #41414e;
+    border-radius: 30px;
+    padding: 10px 20px;
+    margin: 20px;
+}
+
+.game-selection-start button:hover  {
+    background-color: #f5f598;
+    border: 2px solid #41414e;
+}
+
+/* PLAYERS REGISTRATION */
+.game-selection form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.game-register {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    color: #FFF2F2;
+}
+
+.game-register-content {
+    max-width: 250px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #54545f;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #54545f;
+}
+
+.game-register-content h3 {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #f4a6b1;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+}
+
+.game-register-content-label {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #fff2f2;
+    font-weight: bolder;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 2px solid #41414e;
+    background-color: #161618;
+    color: #fff2f2;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #f4a6b1;
+    background-color: #161618;
+    color: #FFF2F2;
+}
+
+.form-control::placeholder {
+    color: #fff2f2ab;   
+}
+
+.form-control:disabled {
+    outline: none;
+    border-color: #a79395;
+    background-color: #B2AFB1;
+    color: #161618;
+    font-weight: 600;
+    cursor:not-allowed;
+}
+
+.game-register-content-input {
+    margin-bottom: 15px;
+}
+
+.game-color-options {
+    display: flex;
+    justify-content: space-between;
+}
+
+.game-color-option {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #fff;
+}
+
+  /* Estilo para los boosts (hechizos) */
+.boost-options {
+    display: flex;
+    justify-content: space-between;
+}
+
+.boost-option {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease-in-out;
+}
+
+.boost-option:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+.boost-option img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Opciones de color */
+.game-color-options {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.game-color-option {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.game-color-option:hover {
+    transform: scale(1.1);
+}
+
+.game-option-selected {
+    border: 2px solid #161618;
+    transform: scale(1.2);
+}
+
+.game-error {
+    color: #be4656;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+    background-color: #f7d6db;
+    padding: 20px;
+    border-radius: 20px;
+    border: 2px solid #be4656;
+}
+
+/* DISPOSITIVOS MÓVILES */
+@media (max-width: 768px) {
+    
+    .game-selection h3 {
+        font-size: clamp(14px, 4vw, 36px); /* Reduce ligeramente en pantallas pequeñas */
+    }
+
+    .game-selection h4 {
+        font-size: clamp(12px, 2.5vw, 24px); /* Más pequeño pero aún adaptable */
+    }
+
+    .game-selection-options{
+        flex-wrap: wrap;
+    }
+    
+    #playerSelection .game-selection-option:first-child {
+      display: none;
+    }
+    
+    .game-selection-start {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 0px;
+    }
+
+    .game-selection-start button {
+        margin: 10px;
+    }
+
+    .option-btn {
+        position: relative;
+        font-size: clamp(14px, 2vw, 22px); /* Tamaño de fuente adaptable */
+        font-weight: bolder;
+        color: #161618;
+        width: clamp(60px, 10vw, 120px); /* Botón adaptable entre 60px y 120px */
+        height: clamp(60px, 10vw, 120px); /* Igual que el ancho para mantener proporción */
+        background-color: #b2afb1;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    }
+    
+}
+  

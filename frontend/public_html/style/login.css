@@ -1,0 +1,110 @@
+/* MAIN CONTAINER */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    color: #161618;
+    font-weight: bolder;
+    width: fit-content;
+}
+
+.login-box {
+    background-color: #fff2f2;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    gap: 10px;
+}
+
+.login-box h2 {
+    font-family: 'retro';
+}
+
+.login-box h2, .login-elem label{
+    color: #161618;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.login-elem {
+    text-align: left;
+    font-weight: bold;
+    margin: 15px 0px 15px 0px;
+}
+
+.login-elem input {
+    margin-bottom: 20px;
+}
+
+/* Contenedor para el campo de contraseña con ícono */
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Estiliza el campo de entrada */
+.input-container input {
+    width: 100%;
+    padding-right: 40px; /* Espacio para el ícono */
+}
+
+/* Posiciona el ícono */
+#togglePassword {
+    position: absolute;
+    right: 14px;
+    top: 39%;
+    transform: translateY(-63%);
+    cursor: pointer;
+    color: #41414e;
+    font-size: 1.2em;
+}
+
+/* Ajuste para pantallas más pequeñas */
+@media (max-width: 600px) {
+    #togglePassword {
+        right: 5px;
+    }
+}
+
+/* SIGN UP/SIGN IN  BUTTONS */
+
+.sign-up{
+    font-weight: bold;
+    text-decoration: none;
+    color: #161618;
+}
+
+.sign-up:hover {
+    text-decoration: underline;
+}
+
+.btn-dark, .btn-light {
+    font-weight: bold;
+}
+
+.btn-dark:hover {
+    background-color: #505050;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-light {
+    background-color: #eaeae9;
+}
+
+.btn {
+    margin: 10px 0px 10px 0px;
+}
+.btn-hover img {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.login-box span {
+    color: #161618;
+}
+
+.not-account {
+    font-weight: lighter !important;
+}

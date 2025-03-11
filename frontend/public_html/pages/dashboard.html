@@ -1,0 +1,59 @@
+<div class="container mt-4">
+    <h1 class="text-center mb-4">🏓 Pong Tournament Dashboard</h1>
+
+    <!-- Tarjetas con estadísticas generales -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <h5>Total Matches Played</h5>
+                <h2 id="totalMatches">0</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <h5>Total Wins</h5>
+                <h2 id="totalWins">0</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <h5>Total Losses</h5>
+                <h2 id="totalLosses">0</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de jugadores -->
+    <div class="mt-4">
+        <h3>Player Rankings</h3>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Wins</th>
+                    <th>Losses</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="playerTableBody">
+                <!-- Datos generados con JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <h5 class="text-center">Wins vs Losses</h5>
+                <canvas id="winsLossesChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <h5 class="text-center">Score Distribution</h5>
+                <canvas id="scoreDistributionChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>

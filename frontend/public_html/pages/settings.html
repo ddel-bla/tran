@@ -1,0 +1,79 @@
+<div class="settings">
+    <!-- Sound/ Dark Mode -->
+    <div class="settings-header">
+        <h2 class="settings-header-title" data-key="game_customization">Game Customization</h2>
+        
+        <div class="settings-header-icons">
+            <!-- Iconos existentes -->
+            <i class="fas fa-bell settings-header-icons-elem" id="soundIcon" onclick="toggleSound()"></i>
+            <i class="fas fa-sun settings-header-icons-elem" id="modeIcon" onclick="toggleMode()"></i>
+    
+            <!-- Selector de idioma con iconos de banderas -->
+            <select onchange="setLanguage(this.value)" class="language-select">
+                <option value="en" class="flag-icon flag-icon-us"> English</option>
+                <option value="es" class="flag-icon flag-icon-es"> Español</option>
+                <option value="fr" class="flag-icon flag-icon-fr"> Français</option>
+            </select>
+        </div>
+    </div>
+    <hr>
+
+    <!-- Game options -->
+    <div class="settings-options">
+        <!-- BALL SIZE -->
+        <div class="size-picker mb-4">
+            <h5 data-key="ball_size">Ball Size</h5>
+            <input type="range" class="form-range" id="sizeRange" min="10" max="20" step="5" value="10" oninput="updateBallSize(this.value)">
+            <div class="size-labels">
+                <span data-key="small">Small</span>
+                <span data-key="medium">Medium</span>
+                <span data-key="large">Large</span>
+            </div>
+        </div>
+
+        <!-- BALL SPEED -->
+        <div class="ball-speed mb-4">
+            <h5 data-key="ball_speed">Ball Speed</h5>
+            <input type="range" class="form-range" id="ballRange" min="400" max="600" step="50" value="500" oninput="updateBallSpeed(this.value)">
+            <div class="speed-labels">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+            </div>
+        </div>
+
+        <!-- BALL COLOR -->
+        <div class="color-picker mb-4">
+            <h5 data-key="ball_color">Ball Color</h5>
+            <div class="color-options">
+                <button class="color-option" style="background-color: #B63A4B;" onclick="updateBallColor('#B63A4B')"></button>
+                <button class="color-option" style="background-color: #5A9F6B;" onclick="updateBallColor('#5A9F6B')"></button>
+                <button class="color-option" style="background-color: #516A99;" onclick="updateBallColor('#516A99')"></button>
+                <button class="color-option" style="background-color: #ECE570;" onclick="updateBallColor('#ECE570')"></button>
+                <button class="color-option" style="background-color: #9C77C1;" onclick="updateBallColor('#9C77C1')"></button>
+                <button class="color-option" style="background-color: #fff2f2;" onclick="updateBallColor('#fff2f2')"></button>
+            </div>
+        </div>
+        
+
+        <!-- BACKGROUND -->
+        <div class="background-picker mb-4">
+            <h5 data-key="background">Game Background</h5>
+            <div class="background-options">
+                <button class="background-option" data-color="#161618" style="background-color: #161618;" onclick="changeBackground('#161618', this)">
+                </button>
+                <button class="background-option" data-color="#70b8b1" style="background-color: #70b8b1;" onclick="changeBackground('#70b8b1', this)">
+                </button>
+                <button class="background-option" data-color="#b2afb1" style="background-color: #b2afb1;" onclick="changeBackground('#b2afb1', this)">
+                </button>
+                <button class="background-option" data-color="#b2afb1" style="background-color: #f4a6b1;" onclick="changeBackground('#f4a6b1', this)">
+                </button>
+                <button class="background-option" data-color="#74748d" style="background-color: #74748d;" onclick="changeBackground('#74748d', this)">
+                </button>
+            </div>
+        </div>        
+        
+    </div>
+</div>

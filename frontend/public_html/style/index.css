@@ -1,0 +1,240 @@
+/* Fuente retro con estilo */
+@font-face {
+    font-family: 'retro';
+    src: url('../font/retro.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 1px;
+}
+
+/* DARK MODE */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #161618;
+    color: #FFF2F2;
+    margin: 0;
+    width: 100%;
+}
+
+/* LIGHT MODE */
+body.light-mode {
+    background-color: #74748d;
+}
+
+/* CONTENT CONTAINER */
+.content-container {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+/* NAV */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #161618;
+    width: 98%;
+    border-bottom: 2px solid #41414e;
+    margin: 10px;
+}
+
+.navbar.light-mode {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #74748d;
+    width: 98%;
+    border-bottom: 2px solid #2d2d33;
+    margin: 10px;
+
+}
+
+.navbar ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    padding: 0;
+}
+
+.navbar li {
+    position: relative;
+    padding: 5px 0;
+}
+
+.navbar a {
+    text-decoration: none;
+    font-size: 16px;
+    position: relative;
+    padding: 5px 0;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    color: #f5f598;
+}
+
+.navbar a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #FFF2F2;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease-out;
+}
+
+.navbar a:hover::after,
+.navbar a:focus::after {
+    transform: scaleX(1);
+}
+.navbar-brand {
+    font-family: 'retro';
+    font-size: 1.5rem;
+    color: #FFF2F2;
+    letter-spacing: 4px;
+    cursor: pointer;
+}
+
+.nav-link {
+    cursor: pointer;
+    color: #f5f598;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+    margin-left: 12px;
+}
+
+.button-container .btn {
+    border-radius: 50px;
+    padding: 6px 18px;
+}
+
+.login-button {
+    background-color: rgba(255, 254, 254, 0.827);
+    color: #161618;
+    font-weight: bold;
+}
+
+.login-button:hover {
+    background-color: #54545f;
+    color: #FFF2F2;
+}
+
+.signup-button {
+    background-color: #f5f598;
+    color: #161618;
+    font-weight: bold;
+}
+
+.signup-button:hover {
+    background-color: #54545f;
+    color: #FFF2F2;
+}
+
+@media (max-width: 991px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .navbar-toggler {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .navbar-toggler:hover {
+        background-color: #323238;
+    }
+
+    .navbar-toggler:focus, 
+    .navbar-toggler:active {
+        outline: none;
+        box-shadow: none !important;
+        border: 2px solid #FFF2F2;
+    }
+
+    .navbar-nav {
+        align-items: center;
+        justify-self: center;
+        text-align: center;
+    }
+
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='3' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+    
+    .navbar ul {
+        flex-direction: column;
+        width: auto;
+        padding-top: 10px;
+    }
+
+    .navbar ul.show {
+        display: flex; /* Mostrar menú cuando se activa */
+    }
+
+    .navbar li {
+        width: fit-content;
+        text-align: left;
+        padding: 10px 0;
+    }
+
+    /* Estilo del subrayado en móvil */
+    .navbar a::after {
+        height: 2px; /* Línea más delgada */
+    }
+
+    .button-container {
+        margin-left: 0;
+        gap: 20px;
+        align-items: center;
+        justify-self: center;
+        text-align: center;
+    }
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.username {
+    font-weight: bold;
+    color: white;
+}
+
+.logout-button {
+    background: #B63A4B;
+    border: 2px solid #5e1f27;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.logout-button:hover {
+    background: rgb(211, 72, 90);
+    color: #5e1f27;
+}
