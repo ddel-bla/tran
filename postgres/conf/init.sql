@@ -1,0 +1,10 @@
+DROP DATABASE IF EXISTS postgres_42;
+CREATE DATABASE postgres_42;
+
+\c postgres_42
+
+DROP SCHEMA IF EXISTS auth_42_api CASCADE;
+CREATE SCHEMA auth_42_api;
+
+DROP SCHEMA IF EXISTS auth_local CASCADE;
+CREATE SCHEMA auth_local;
