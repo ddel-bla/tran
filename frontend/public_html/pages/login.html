@@ -3,7 +3,7 @@
         <h2 class="text-center" data-key="welcome_back">Welcome back</h2>
         <p class="text-center text-muted" data-key="welcome_message">Welcome back! Please enter your details.</p>
 
-        <form id="loginForm">
+        <form id="loginForm" method="post">
             <div class="mb-3 login-elem">
                 <label for="email" class="form-label" data-key="email_label">Email</label>
                 <input type="email" class="register-form-control" id="email" placeholder="Enter your email" required data-key="email_placeholder" autocomplete="email">
@@ -18,7 +18,7 @@
 
             <button type="button" class="btn btn-dark w-100" onclick="loginUser()">Log In</button>
 
-            <button type="button" onclick="window.location.href='http://localhost:8000/api/auth/42/login'" 
+            <button type="button" onclick="window.location.href='https://localhost:8442/api/auth/42/login'" 
                 class="btn w-100 mt-3 btn-hover login-button">
                 <img src="https://i.ibb.co/Tqtx4srT/42-icon.png" alt="42 Logo" width="25">
                 <span data-key="sign_in_42">Sign in with 42</span>

@@ -8,3 +8,4 @@ psycopg2-binary
 python-dotenv
 django-environ==0.4.5
 django-prometheus
+gunicorn

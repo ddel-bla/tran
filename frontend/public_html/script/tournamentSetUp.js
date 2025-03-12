@@ -195,6 +195,10 @@ function reloadingGameTournament() {
     let winner2 = document.getElementById(`round-3-2`);
     winner2.innerHTML = "";
     winner2.classList.remove('ready');
+
+    // Enable boost button
+    let spellToggle = document.getElementById("spellToggle");
+    spellToggle.disabled = false;
 }
 
 // Lógica de enfrentamientos
@@ -207,8 +211,6 @@ async function startFights(matches) {
         // Usamos for...of para poder await cada partida
         for (const match of matches) {
             highlightMatch(match.player1, match.player2); // Resaltar jugadores en combate
-            
-            console.log(match);
             
             // Mostrar info del jugador
             displayPlayerInfoTour(match);
@@ -261,6 +263,12 @@ function displayPlayerInfoTour(playersData) {
     // 1. Establecemos nombres globales de jugadores
     player1 = playersData.player1.username;
     player2 = playersData.player2.username;
+
+    // 2. Boost no estan activados
+    if (!boostEnable) {
+        debugMessage.style.top = "56%";
+        return;
+    }
 
     const gameBoosts = document.getElementById("gameBoosts");
     const boostImages = {
@@ -341,7 +349,7 @@ function displayPlayerInfoTour(playersData) {
     gameBoosts.style.display = "flex";
     gameBoosts.style.visibility = "visible";
     const score = document.getElementById("score");
-    score.style.top = "105px";
+    score.style.top = "118px";
 }
 
 // Deshabilitar botones de selección
@@ -351,11 +359,13 @@ function disableTournamentSelectionButtons()
     let tournamentPlayersButtons = document.querySelectorAll('.tour-players-btn-group');
     let pointsButtons = document.querySelectorAll('.tour-points-btn-group');
     const startButton = document.getElementById('tournamentButton');
+    let spellToggle = document.getElementById("spellToggle");
     
     teamplayerButtons.forEach(button => button.disabled = true);
     tournamentPlayersButtons.forEach(button => button.disabled = true);
     pointsButtons.forEach(button => button.disabled = true);
     startButton.disabled = true;
+    spellToggle.disabled = true;
 }
 
 // Matchmaking

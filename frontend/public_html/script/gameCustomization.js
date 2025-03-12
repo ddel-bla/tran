@@ -1,7 +1,6 @@
 // ACTUALIZAR TAMAÑO BOLA
 function updateBallSize(value) {
 
-    console.log("Este es el size input " + value)
     ballSize = parseInt(value);
     ballX = canvas.width / 2 - ballSize / 2;
     ballY = canvas.height / 2 - ballSize / 2;
@@ -12,8 +11,6 @@ function updateBallSize(value) {
 
 // ACTUALIZAR VELOCIDAD
 function updateBallSpeed(value) {
-    
-    console.log("Este es el speed input " + value)
 
     ballSpeedX = value, ballSpeedY = value;
     localStorage.setItem("ballSpeed", value);
@@ -23,8 +20,6 @@ function updateBallSpeed(value) {
 
 // ACTUALIZAR COLOR
 function updateBallColor(value) {
-    
-    console.log("Este es el color input " + value)
 
     ballColor = value;
     localStorage.setItem("ballColor", ballColor);
@@ -52,7 +47,6 @@ function updateColorSelection(value) {
 
 // ACTUALIZAR FONDO
 function updateBackground(value) {
-console.log("Este es el color input " + value)
 
     ballColor = value;
     localStorage.setItem("ballColor", ballColor);

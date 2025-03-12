@@ -27,7 +27,7 @@ def generate_jwt(user):
     return jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
 @api_view(["POST"])
-@csrf_exempt 
+@csrf_protect
 def register_user(request):
     """Registra un usuario con email obligatorio y devuelve un JWT"""
     username = request.data.get("username")
@@ -96,4 +96,15 @@ def login_user(request):
 
 @api_view(["GET"])
 def get_csrf_token(request):
-    return JsonResponse({"csrfToken": get_token(request)}, status=200)
+    response = JsonResponse({"csrfToken": get_token(request)})
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Origin"] = "https://localhost:8443"  # Asegurar origen correcto
+    response.set_cookie(
+        "csrftoken",
+        get_token(request),
+        max_age=60 * 60,  # 1 hora
+        secure=True,  # Solo HTTPS
+        httponly=False,  # Accesible por JavaScript
+        samesite="None"  # Permitir en peticiones cross-origin
+    )
+    return response

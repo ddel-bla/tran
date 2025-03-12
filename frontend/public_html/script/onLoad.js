@@ -186,7 +186,7 @@ async function logout() {
 
     try {
         if (token_backend) {
-            await fetch("http://localhost:8000/api/auth/logout", {
+            await fetch("https://localhost:8442/api/auth/logout", {
                 method: "DELETE",
                 headers: {
                     "Authorization": `Bearer ${token_backend}`,
@@ -194,26 +194,17 @@ async function logout() {
                 }
             });
         }
-
-        if (token_backend2) {
-            await fetch("http://localhost:8001/api/auth/logout", {
-                method: "DELETE",
-                headers: {
-                    "Authorization": `Bearer ${token_backend2}`,
-                    "Content-Type": "application/json"
-                }
-            });
-        }
     } catch (error) {
         console.error("❌ Error al hacer logout:", error);
     }
-    localStorage.removeItem("jwt_backend");
-    localStorage.removeItem("username_backend");
-    localStorage.removeItem("image_url_backend");
+    // localStorage.removeItem("jwt_backend");
+    // localStorage.removeItem("username_backend");
+    // localStorage.removeItem("image_url_backend");
 
-    localStorage.removeItem("jwt_backend2");
-    localStorage.removeItem("username_backend2");
-    localStorage.removeItem("image_url_backend2");
+    // localStorage.removeItem("jwt_backend2");
+    // localStorage.removeItem("username_backend2");
+    // localStorage.removeItem("image_url_backend2");
+    localStorage.clear();
 
     pageHistory = [];
     window.history.pushState({}, "", "#");

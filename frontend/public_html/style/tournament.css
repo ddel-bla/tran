@@ -18,6 +18,10 @@
     border: 1px solid #FFF2F2;
 }
 
+.tournament-container .boost-enable {
+    margin-bottom: 10px;
+}
+
 .tournament-start {
     display: flex;
     align-items: center;

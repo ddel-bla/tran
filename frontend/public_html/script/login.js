@@ -20,7 +20,7 @@ async function registerUser() {
     try {
         const csrfToken = await getCsrfToken();  
 
-        const response = await fetch("http://localhost:8001/api/auth/register", {
+        const response = await fetch("https://localhost:8441/api/auth/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -59,7 +59,7 @@ async function loginUser() {
     try {
         const csrfToken = await getCsrfToken();
 
-        const response = await fetch("http://localhost:8001/api/auth/login", {
+        const response = await fetch("https://localhost:8441/api/auth/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -105,9 +105,9 @@ document.addEventListener("DOMContentLoaded", function () {
 // que solo se puedan ejecutar si el usuario esta autenticado
 async function getCsrfToken() {
     try {
-        const response = await fetch("http://localhost:8001/api/auth/csrf/", {
+        const response = await fetch("https://localhost:8441/api/auth/csrf/", {
             method: "GET",
-            credentials: "include"
+            credentials: "include"  // 🔥 Permitir cookies cross-origin
         });
 
         const data = await response.json();

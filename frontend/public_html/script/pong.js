@@ -79,16 +79,16 @@ function moveBall(time) {
             // Colisi贸n con el jugador 3
             else if (ballX >= playerDistance && ballY + ballSize >= player3Y && ballY <= player3Y + paddleHeight) {
                 ballX = playerDistance + paddleWidth;
-                ballSpeedX = -ballSpeedX * (Math.random() * 0.15 + 0.95);
-                ballSpeedY = ballSpeedY * (Math.random() * 0.15 + 0.95);
+                ballSpeedX = -ballSpeedX * (Math.random() * 0.05 + 0.98);
+                ballSpeedY = ballSpeedY * (Math.random() * 0.05 + 0.98);
                 playSound('bounce');
             }
 
             // Colisi贸n con el jugador 1
             else if (ballX <= paddleWidth && ballY + ballSize >= player1Y && ballY <= player1Y + paddleHeight) {
                 ballX = paddleWidth;
-                ballSpeedX = -ballSpeedX * (Math.random() * 0.15 + 0.95);
-                ballSpeedY = ballSpeedY * (Math.random() * 0.15 + 0.95);
+                ballSpeedX = -ballSpeedX * (Math.random() * 0.05 + 0.98);
+                ballSpeedY = ballSpeedY * (Math.random() * 0.05 + 0.98);
                 playSound('bounce');
             }
 
@@ -101,16 +101,16 @@ function moveBall(time) {
             // Colisi贸n con el jugador 4
             else if (ballX + ballSize <= canvas.width - playerDistance && ballY + ballSize >= player4Y && ballY <= player4Y + paddleHeight2) {
                 ballX = canvas.width - playerDistance - paddleWidth - ballSize;
-                ballSpeedX = -ballSpeedX * (Math.random() * 0.15 + 0.95);
-                ballSpeedY = ballSpeedY * (Math.random() * 0.15 + 0.95);
+                ballSpeedX = -ballSpeedX * (Math.random() * 0.05 + 0.98);
+                ballSpeedY = ballSpeedY * (Math.random() * 0.05 + 0.98);
                 playSound('bounce');
             }
 
             // Colisi贸n con el jugador 2
             else if (ballX + ballSize >= canvas.width - paddleWidth && ballY + ballSize >= player2Y && ballY <= player2Y + paddleHeight2) {
                 ballX = canvas.width - paddleWidth - ballSize;
-                ballSpeedX = -ballSpeedX * (Math.random() * 0.15 + 0.95);
-                ballSpeedY = ballSpeedY * (Math.random() * 0.15 + 0.95);
+                ballSpeedX = -ballSpeedX * (Math.random() * 0.05 + 0.98);
+                ballSpeedY = ballSpeedY * (Math.random() * 0.05 + 0.98);
                 playSound('bounce');
             }
         }
@@ -124,8 +124,8 @@ function moveBall(time) {
             // Rebote
             else if (ballY + ballSize >= player1Y && ballY <= player1Y + paddleHeight) {
                 ballX = paddleWidth;
-                ballSpeedX = -ballSpeedX * (Math.random() * 0.15 + 0.95);
-                ballSpeedY = ballSpeedY * (Math.random() * 0.15 + 0.95);
+                ballSpeedX = -ballSpeedX * (Math.random() * 0.05 + 0.98);
+                ballSpeedY = ballSpeedY * (Math.random() * 0.05 + 0.98);
                 playSound('bounce');
             }
         }
@@ -139,8 +139,8 @@ function moveBall(time) {
             // Rebote
             else if (ballY + ballSize >= player2Y && ballY <= player2Y + paddleHeight2) {
                 ballX = canvas.width - paddleWidth - ballSize;
-                ballSpeedX = -ballSpeedX * (Math.random() * 0.15 + 0.95);
-                ballSpeedY = ballSpeedY * (Math.random() * 0.15 + 0.95);
+                ballSpeedX = -ballSpeedX * (Math.random() * 0.05 + 0.98);
+                ballSpeedY = ballSpeedY * (Math.random() * 0.05 + 0.98);
                 playSound('bounce');
             }
         }
@@ -310,6 +310,15 @@ function reloadGame(page) {
     debugMessage.style.color = 'white';
     player1Score.textContent = 0;
     player2Score.textContent = 0;
+    
+    const savedSpeed = localStorage.getItem("ballSpeed");
+    if (allowedSpeeds.includes(savedSpeed)) {
+        updateBallSpeed(savedSpeed)
+        ballBSpeed = 500;
+    } else {
+        ballSpeedX = 500, ballSpeedY = 500;
+        ballBSpeed = 500;
+    }
 
     ballX = canvas.width / 2 - ballSize / 2;            // Posición de la pelota
     ballY = canvas.height / 2 - ballSize / 2;
@@ -387,12 +396,10 @@ function activateBoost(boostType, playerName, index, button) {
 function applyBoost(boostType, playerName, index) {
     switch (boostType) {
         case "speed":
-            console.log(`${playerName} activó el Boost de Velocidad!`);
             ballSpeedX *= 5;
             ballSpeedY *= 5;
             break;
         case "power":
-            console.log(`${playerName} activó el Boost de Poder!`);
             if (index % 2 === 0) {
                 paddleSpeed *= 2;
             } else {
@@ -401,7 +408,6 @@ function applyBoost(boostType, playerName, index) {
             drawGameBoard();   
             break;
         case "defense":
-            console.log(`${playerName} activó el Boost de Defensa!`);
             if (index % 2 === 0) {
                 paddleHeight = 150;
             } else {
@@ -410,7 +416,7 @@ function applyBoost(boostType, playerName, index) {
             drawGameBoard();   
             break;
         default:
-            console.log("Boost desconocido.");
+            break;
     }
 }
 

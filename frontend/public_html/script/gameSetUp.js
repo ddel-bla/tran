@@ -333,7 +333,6 @@ function displayPlayerInfo(playersData) {
 
     // 3. Mostramos los boost que corresponden por jugador
     playersData.forEach((player, index) => {
-        console.log(player)
         let playerContainer = gameBoosts.children[index];
         if (playerContainer) {
             let nameElement = playerContainer.querySelector("p, span");

@@ -70,7 +70,6 @@ function changeBackground(value, button) {
     if (value) {
         canvas.style.backgroundColor = value;
         localStorage.setItem("backgroundColor", value); //Guardar en localStorage
-        console.log("Paso")
     }
 }
 
@@ -110,7 +109,7 @@ function changeLanguage(language) {
     const translation = translations[language];
 
     if (!translation) {
-        console.warn('Idioma no encontrado:', language);
+        //console.warn('Idioma no encontrado:', language);
         return;
     }
 
@@ -123,10 +122,7 @@ function changeLanguage(language) {
             } else {
                 // Para otros elementos, cambiar el texto
                 element.textContent = translation[key];
-            }
-            
-        } else {
-            console.warn(`Clave de traducción no encontrada para: ${key}`);
+            }       
         }
     });
 }

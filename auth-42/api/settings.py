@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-vq3q_uvd!@8%tb3m&b5^7adki9+x22p*al4v3jc@+%w%3+-j@o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -45,13 +45,20 @@ MIDDLEWARE = [
     'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000  # 1 año
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",
-    "http://localhost:8000",
+    "https://localhost:8443",
 ]
+
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:8080",
-    "http://localhost:8000",
+    "https://localhost:8443",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

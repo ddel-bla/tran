@@ -10,10 +10,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost']
 
 
-# Application definition
 
 INSTALLED_APPS = [
     'django_prometheus',
@@ -34,20 +33,38 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    "django.middleware.csrf.CsrfViewMiddleware",
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
+
+SECURE_SSL_REDIRECT = True 
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_HSTS_SECONDS = 31536000 
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_BROWSER_XSS_FILTER = True 
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+
+CSRF_COOKIE_SECURE = True 
+SESSION_COOKIE_SECURE = True 
+CSRF_COOKIE_HTTPONLY = False 
+CSRF_COOKIE_SAMESITE = 'None' 
+SESSION_COOKIE_SAMESITE = 'None' 
+
+
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",
-    "http://localhost:8001",
+    "https://localhost:8443",
+    "https://localhost:8441",
 ]
+
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:8080",
-    "http://localhost:8001",
+    "https://localhost:8443",
+    "https://localhost:8441",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

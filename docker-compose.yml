@@ -1,3 +1,4 @@
+
 services:
   db:
     build: ./postgres
@@ -20,33 +21,37 @@ services:
     command: sh -c "
       python manage.py makemigrations api &&
       python manage.py migrate &&
-      python manage.py runserver 0.0.0.0:8000"
+      gunicorn --certfile=/certs/cert.crt --keyfile=/certs/cert.key -b 0.0.0.0:8442 api.wsgi"
     env_file:
-      - auth-42/.env
+    - auth-42/.env
     ports:
-      - "8000:8000"
+      - "8442:8442"
     depends_on:
       db:
         condition: service_healthy
     networks:
       - app_network
+    volumes:
+      - ./frontend/certs:/certs
 
   auth-local:
-    build: ./auth-local 
-    container_name: auth-local 
+    build: ./auth-local
+    container_name: auth-local
     command: sh -c "
       python manage.py makemigrations api &&
       python manage.py migrate &&
-      python manage.py runserver 0.0.0.0:8001"
+      gunicorn --certfile=/certs/cert.crt --keyfile=/certs/cert.key -b 0.0.0.0:8441 api.wsgi"
     env_file:
       - auth-local/.env
     ports:
-      - "8001:8001"
+      - "8441:8441"
     depends_on:
       db:
         condition: service_healthy
     networks:
       - app_network
+    volumes:
+      - ./frontend/certs:/certs
 
   frontend:
     build: ./frontend
@@ -59,12 +64,14 @@ services:
       - auth-local
     networks:
       - app_network
+    volumes:
+      - ./frontend/certs:/etc/ssl/certs
 
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
     volumes:
-      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.ymlA
     ports:
       - "9090:9090"
     networks:

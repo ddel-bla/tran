@@ -7,6 +7,8 @@ import os
 from django.shortcuts import redirect
 from django.contrib.auth import get_user_model
 import environ
+from urllib.parse import quote
+
 
 env = environ.Env()
 environ.Env.read_env(os.path.join(os.path.dirname(__file__), '../.env'))
@@ -17,6 +19,7 @@ SECRET_KEY = env('SECRET_KEY')
 CLIENT_ID = env('CLIENT_ID')
 CLIENT_SECRET = env('CLIENT_SECRET')
 REDIRECT_URI = env('REDIRECT_URI')
+encoded_redirect_uri = quote(REDIRECT_URI, safe='')
 
 def generate_jwt(user):
     """Genera un token JWT para el usuario autenticado incluyendo la imagen"""
@@ -30,7 +33,7 @@ def generate_jwt(user):
     return jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
 def login_42(request):
-    auth_url = f"https://api.intra.42.fr/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&response_type=code"
+    auth_url = f"https://api.intra.42.fr/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={encoded_redirect_uri}&response_type=code"
     return redirect(auth_url)
 
 @api_view(['GET'])
@@ -47,7 +50,7 @@ def callback_42(request):
         "code": code,
         "redirect_uri": REDIRECT_URI,
     }
-    response = requests.post(token_url, data=token_data)
+    response = requests.post(token_url, data=token_data, verify=False)
 
     if response.status_code != 200:
         return JsonResponse({"error": "Failed to obtain access token"}, status=400)
@@ -56,7 +59,7 @@ def callback_42(request):
 
     user_info_url = "https://api.intra.42.fr/v2/me"
     headers = {"Authorization": f"Bearer {access_token}"}
-    user_info_response = requests.get(user_info_url, headers=headers)
+    user_info_response = requests.get(user_info_url, headers=headers, verify=False)
 
     if user_info_response.status_code != 200:
         return JsonResponse({"error": "Failed to fetch user info"}, status=400)
@@ -86,7 +89,7 @@ def callback_42(request):
 
     jwt_token = generate_jwt(user)
 
-    redirect_url = f"http://localhost:8080/?token={jwt_token}&auth=42&username={login}&image_url={image_url}"
+    redirect_url = f"https://localhost:8443/?token={jwt_token}&auth=42&username={login}&image_url={image_url}"
     return redirect(redirect_url)
 
 
