@@ -1,3 +1,4 @@
+<!-- Versión mejorada del archivo setup_2fa.html con generación QR -->
 <div class="login-container">
     <div class="login-box" style="max-width: 600px;">
         <h2 class="text-center" data-key="setup_2fa_title">Configuración de Autenticación de Dos Factores</h2>
@@ -5,13 +6,20 @@
 
         <div id="setup-message" class="alert alert-info mb-3" style="display: none;"></div>
 
-        <!-- PASO 1: Generación de clave manual -->
+        <!-- PASO 1: Generación QR y clave manual -->
         <div id="step1" class="text-center mb-4">
             <h4>Paso 1: Generar clave TOTP</h4>
             <button id="generateKeyBtn" class="btn btn-primary mb-3">Generar clave TOTP</button>
             
             <div id="keyDetails" style="display:none;">
-                <div class="mb-3 p-3 bg-light rounded">
+                <!-- Área donde se mostrará el QR -->
+                <div id="qrCodeContainer" class="mb-3 text-center" style="display:none;">
+                    <p><strong>Código QR:</strong></p>
+                    <div id="qrcode" class="mx-auto d-inline-block p-2 bg-white"></div>
+                </div>
+                
+                <!-- Área donde se mostrará la clave -->
+                <div id="secretKeyContainer" class="mb-3 p-3 bg-light rounded">
                     <p><strong>Clave secreta:</strong></p>
                     <code id="secretKey" class="d-block p-2 mb-2" style="font-size: 1.2rem; word-break: break-all;"></code>
                     <button id="copyBtn" class="btn btn-sm btn-secondary">Copiar clave</button>
@@ -24,8 +32,12 @@
             <h4 class="text-center">Paso 2: Configurar aplicación de autenticación</h4>
             <ol class="mb-4">
                 <li>Abre tu aplicación de autenticación (Google Authenticator, Authy, etc.)</li>
-                <li>Añade una nueva cuenta seleccionando "Introducir clave manualmente" o similar</li>
-                <li>Introduce la clave secreta mostrada arriba</li>
+                <li>Añade una nueva cuenta mediante uno de estos métodos:
+                    <ul>
+                        <li>Escanea el código QR si está visible</li>
+                        <li>O selecciona "Introducir clave manualmente" y usa la clave secreta mostrada arriba</li>
+                    </ul>
+                </li>
                 <li>Nombra la cuenta como "PongApp" o un nombre que recuerdes fácilmente</li>
                 <li>Guarda la configuración en tu aplicación</li>
             </ol>
@@ -46,14 +58,20 @@
     </div>
 </div>
 
+<!-- Incluir biblioteca QRCode.js desde CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <script>
 // Variables globales
 let secretKey = '';
-let userId = '';
 let tempToken = localStorage.getItem('temp_token') || '';
+let qrUrl = '';
+let qrCodeInstance = null;
 
 // Al cargar la página
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM cargado, iniciando configuración 2FA");
+    
     // Inicializar listeners
     document.getElementById('generateKeyBtn').addEventListener('click', generateTOTPKey);
     document.getElementById('copyBtn').addEventListener('click', function() {
@@ -76,45 +94,126 @@ function generateTOTPKey() {
     const generateBtn = document.getElementById('generateKeyBtn');
     generateBtn.disabled = true;
     generateBtn.textContent = 'Generando...';
+    showMessage("Generando clave y QR...", "info");
     
-    try {
-        // Generar una clave aleatoria de 16 caracteres (alternativa al backend)
-        const randomKey = generateRandomKey();
-        secretKey = randomKey;
-        
-        // Mostrar la clave
-        document.getElementById('secretKey').textContent = secretKey;
-        document.getElementById('keyDetails').style.display = 'block';
-        
-        // Mostrar el paso 2
-        document.getElementById('step2').style.display = 'block';
-        document.getElementById('step3').style.display = 'block';
-        
-        // Actualizar el botón
-        generateBtn.textContent = 'Clave generada';
-        generateBtn.classList.replace('btn-primary', 'btn-success');
-    } catch (error) {
-        console.error('Error al generar la clave:', error);
-        showMessage("Error al generar la clave TOTP. Intenta de nuevo.", "danger");
-        generateBtn.disabled = false;
-        generateBtn.textContent = 'Intentar de nuevo';
+    // Decidir si usar generación desde el servidor o local
+    const useServerGeneration = false; // Cambia a true para intentar la generación desde el servidor
+    
+    if (useServerGeneration) {
+        // Intentar generar desde el servidor
+        getServerGeneratedKey();
+    } else {
+        // Generar localmente (más confiable)
+        try {
+            generateLocalKey();
+        } catch (error) {
+            console.error('Error al generar la clave localmente:', error);
+            showMessage("Error al generar la clave TOTP. Intenta de nuevo.", "danger");
+            generateBtn.disabled = false;
+            generateBtn.textContent = 'Intentar de nuevo';
+        }
     }
 }
 
-// Función para generar una clave aleatoria para TOTP
-function generateRandomKey() {
+// Función para obtener clave desde el servidor (opcional)
+async function getServerGeneratedKey() {
+    try {
+        const response = await fetch(`https://localhost:8441/api/auth/2fa-setup?temp_token=${tempToken}`, {
+            method: "GET",
+            credentials: "include"
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        secretKey = data.secret_key;
+        qrUrl = data.config_url;
+        
+        displayKeyAndQR(secretKey, qrUrl);
+    } catch (error) {
+        console.error('Error al obtener clave del servidor:', error);
+        // Si falla, usar generación local como respaldo
+        generateLocalKey();
+    }
+}
+
+// Función para generar una clave localmente
+function generateLocalKey() {
+    // Generar una clave aleatoria de 16 caracteres base32
+    secretKey = generateRandomBase32Key(16);
+    
+    // Crear URL para QR (formato estándar para aplicaciones de autenticación)
+    const username = localStorage.getItem('username_backend2') || 'usuario';
+    const issuer = encodeURIComponent('PongApp');
+    const encodedKey = encodeURIComponent(secretKey);
+    const encodedUsername = encodeURIComponent(username);
+    
+    qrUrl = `otpauth://totp/${issuer}:${encodedUsername}?secret=${encodedKey}&issuer=${issuer}&algorithm=SHA1&digits=6&period=30`;
+    
+    // Mostrar la clave y generar QR
+    displayKeyAndQR(secretKey, qrUrl);
+}
+
+// Función para generar una clave aleatoria en formato Base32
+function generateRandomBase32Key(length) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'; // Caracteres base32
     let result = '';
-    for (let i = 0; i < 16; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    const randomValues = new Uint8Array(length);
+    window.crypto.getRandomValues(randomValues); // Usar generación criptográficamente segura
+    
+    for (let i = 0; i < length; i++) {
+        result += chars.charAt(randomValues[i] % chars.length);
     }
     return result;
+}
+
+// Función para mostrar la clave y generar QR
+function displayKeyAndQR(key, url) {
+    // Mostrar la clave secreta
+    document.getElementById('secretKey').textContent = key;
+    document.getElementById('keyDetails').style.display = 'block';
+    
+    // Intentar generar QR si tenemos la biblioteca
+    try {
+        if (typeof QRCode !== 'undefined') {
+            const qrContainer = document.getElementById('qrcode');
+            // Limpiar contenedor si ya hay un QR anterior
+            qrContainer.innerHTML = '';
+            
+            // Crear nuevo QR
+            qrCodeInstance = new QRCode(qrContainer, {
+                text: url,
+                width: 200,
+                height: 200,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            
+            // Mostrar contenedor
+            document.getElementById('qrCodeContainer').style.display = 'block';
+        }
+    } catch (e) {
+        console.warn('No se pudo generar el código QR:', e);
+        document.getElementById('qrCodeContainer').style.display = 'none';
+    }
+    
+    // Mostrar pasos siguientes
+    document.getElementById('step2').style.display = 'block';
+    document.getElementById('step3').style.display = 'block';
+    
+    // Actualizar el botón
+    const generateBtn = document.getElementById('generateKeyBtn');
+    generateBtn.textContent = 'Clave generada';
+    generateBtn.classList.replace('btn-primary', 'btn-success');
+    showMessage("Clave generada exitosamente. Continúa con el paso 2.", "success");
 }
 
 // Función para verificar el código OTP
 async function verifyOTP() {
     const otpCode = document.getElementById('otpCode').value.trim();
-    const messageElement = document.getElementById('setup-message');
     
     if (!otpCode || otpCode.length !== 6 || !/^\d+$/.test(otpCode)) {
         showMessage("El código debe contener 6 dígitos", "danger");
@@ -127,10 +226,24 @@ async function verifyOTP() {
         return;
     }
     
+    if (!secretKey) {
+        showMessage("Primero debes generar una clave secreta", "danger");
+        return;
+    }
+    
     try {
         showMessage("Verificando el código...", "info");
         
         const csrfToken = await getCsrfToken();
+        console.log("CSRF Token obtenido:", csrfToken ? "Sí" : "No");
+        
+        const requestData = {
+            temp_token: tempToken,
+            otp_code: otpCode,
+            secret_key: secretKey
+        };
+        
+        console.log("Enviando datos para verificación (token oculto)");
         
         const response = await fetch("https://localhost:8441/api/auth/verify-2fa-setup", {
             method: "POST",
@@ -139,16 +252,13 @@ async function verifyOTP() {
                 "X-CSRFToken": csrfToken
             },
             credentials: "include",
-            body: JSON.stringify({
-                temp_token: tempToken,
-                otp_code: otpCode,
-                secret_key: secretKey // Enviamos la clave generada localmente
-            })
+            body: JSON.stringify(requestData)
         });
+        
+        console.log("Código de estado HTTP:", response.status);
         
         // Leer el cuerpo de la respuesta como texto para depuración
         const responseText = await response.text();
-        console.log("Respuesta completa:", responseText);
         
         // Intentar parsear la respuesta como JSON
         let data;
@@ -156,7 +266,7 @@ async function verifyOTP() {
             data = JSON.parse(responseText);
         } catch (e) {
             console.error("Error al parsear JSON:", e);
-            showMessage("Respuesta del servidor no es un JSON válido", "danger");
+            showMessage("Error en la respuesta del servidor. Contacte al administrador", "danger");
             return;
         }
         
@@ -171,14 +281,18 @@ async function verifyOTP() {
             
             setTimeout(() => {
                 PageManager.load('game');
-                updateNavbar();
+                if (typeof updateNavbar === 'function') {
+                    updateNavbar();
+                }
             }, 2000);
         } else {
-            showMessage(data.error || "Error de verificación", "danger");
+            const errorMsg = data.error || "Error de verificación";
+            console.error("Error del servidor:", errorMsg);
+            showMessage(errorMsg, "danger");
         }
     } catch (error) {
         console.error("Error en la verificación:", error);
-        showMessage("Error en la comunicación con el servidor", "danger");
+        showMessage("Error en la comunicación con el servidor. Verifica tu conexión.", "danger");
     }
 }
 
@@ -197,7 +311,17 @@ function copyToClipboard(elementId) {
         })
         .catch(err => {
             console.error('Error al copiar: ', err);
-            alert('No se pudo copiar al portapapeles');
+            // Método alternativo
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            const button = document.getElementById('copyBtn');
+            button.textContent = '¡Copiado!';
+            setTimeout(() => { button.textContent = 'Copiar clave'; }, 2000);
         });
 }
 
