@@ -32,13 +32,23 @@ async function registerUser() {
         const data = await response.json();
 
         if (response.ok) {
-            localStorage.setItem("jwt", data.token);
-            localStorage.setItem("username", data.username);
-            if (!localStorage.getItem("image_url") || data.image_url !== "https://i.imgur.com/DP2aShH.png") {
-                localStorage.setItem("image_url", data.image_url);
-            }
+            // Si el registro fue exitoso, pero requiere configuración de 2FA
+            if (data.requires_2fa_setup) {
+                // Guardar token temporal para el proceso de configuración 2FA
+                localStorage.setItem("temp_token", data.temp_token);
+                
+                // Redireccionar a la página de configuración 2FA
+                PageManager.load("setup_2fa");
+            } else {
+                // Flujo antiguo (no debería ocurrir con 2FA obligatorio)
+                localStorage.setItem("jwt", data.token);
+                localStorage.setItem("username", data.username);
+                if (!localStorage.getItem("image_url") || data.image_url !== "https://i.imgur.com/DP2aShH.png") {
+                    localStorage.setItem("image_url", data.image_url);
+                }
 
-            PageManager.load("game", updateNavbar);
+                PageManager.load("game", updateNavbar);
+            }
         } else {
             alert("⚠️ Error: " + (data.error || "Error desconocido."));
         }
@@ -72,11 +82,21 @@ async function loginUser() {
         const data = await response.json();
 
         if (response.ok) {
-            localStorage.setItem("jwt_backend2", data.token);
-            localStorage.setItem("username_backend2", data.username);
-            localStorage.setItem("image_url_backend2", data.image_url || "https://i.imgur.com/DP2aShH.png");
+            // Si la primera fase de autenticación fue exitosa, pero requiere 2FA
+            if (data.requires_2fa) {
+                // Guardar token temporal para la verificación 2FA
+                localStorage.setItem("temp_token", data.temp_token);
+                
+                // Redireccionar a la página de verificación OTP
+                PageManager.load("verify_otp");
+            } else {
+                // Flujo antiguo (no debería ocurrir con 2FA obligatorio)
+                localStorage.setItem("jwt_backend2", data.token);
+                localStorage.setItem("username_backend2", data.username);
+                localStorage.setItem("image_url_backend2", data.image_url || "https://i.imgur.com/DP2aShH.png");
 
-            PageManager.load("game", updateNavbar);
+                PageManager.load("game", updateNavbar);
+            }
         } else {
             alert("⚠️ Error: " + (data.error || "Error desconocido." ));
         }

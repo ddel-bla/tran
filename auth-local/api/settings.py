@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
+    'django_otp',
+    'django_otp.plugins.otp_totp',
 ]
 
 MIDDLEWARE = [
@@ -35,6 +37,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_otp.middleware.OTPMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_prometheus.middleware.PrometheusAfterMiddleware',
@@ -55,6 +58,7 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = False 
 CSRF_COOKIE_SAMESITE = 'None' 
 SESSION_COOKIE_SAMESITE = 'None' 
+
 
 
 CORS_ALLOWED_ORIGINS = [

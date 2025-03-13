@@ -2,13 +2,14 @@ const PageManager = (() => {
     let currentPage = null;
     let pageHistory = [];
 
-    const PUBLIC_PAGES = ["login", "register"];
+    const PUBLIC_PAGES = ["login", "register", "verify_otp", "setup_2fa"];
 
     async function loadPage(page, callback, addToHistory = true) {
         const jwt_backend = localStorage.getItem("jwt_backend");
         const jwt_backend2 = localStorage.getItem("jwt_backend2");
+        const temp_token = localStorage.getItem("temp_token");
     
-        if (!jwt_backend && !jwt_backend2 && !PUBLIC_PAGES.includes(page)) {
+        if (!jwt_backend && !jwt_backend2 && !temp_token && !PUBLIC_PAGES.includes(page)) {
             console.warn("⚠️ Intento de acceso no autorizado. Redirigiendo a login.");
             PageManager.load("login");
             return;
