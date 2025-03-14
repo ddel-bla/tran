@@ -88,12 +88,12 @@ def register_user(request):
         except Exception as e:
             print(f"Error inesperado en registro: {str(e)}")
             traceback.print_exc()
-            return JsonResponse({"error": "Error interno del servidor."}, status=500)
+            return JsonResponse({"error": "Error interno del servidor."}, status=501)
             
     except Exception as e:
         print(f"Error general en register_user: {str(e)}")
         traceback.print_exc()
-        return JsonResponse({"error": "Error interno del servidor."}, status=500)
+        return JsonResponse({"error": "Error interno del servidor."}, status=502)
 
 @api_view(['POST'])
 @csrf_protect 
@@ -133,7 +133,7 @@ def login_user(request):
     except Exception as e:
         print(f"Error en login_user: {str(e)}")
         traceback.print_exc()
-        return JsonResponse({"error": "Error interno del servidor."}, status=500)
+        return JsonResponse({"error": "Error interno del servidor."}, status=503)
 
 @api_view(["POST"])
 def verify_otp(request):
@@ -174,7 +174,7 @@ def verify_otp(request):
     except Exception as e:
         print(f"Error en verify_otp: {str(e)}")
         traceback.print_exc()
-        return JsonResponse({"error": "Error interno del servidor."}, status=500)
+        return JsonResponse({"error": "Error interno del servidor."}, status=504)
 
 @api_view(["GET"])
 def get_2fa_setup(request):
@@ -199,11 +199,11 @@ def get_2fa_setup(request):
             }, status=200)
         except Exception as e:
             traceback.print_exc()
-            return JsonResponse({"error": f"Error al generar configuración 2FA: {str(e)}"}, status=500)
+            return JsonResponse({"error": f"Error al generar configuración 2FA: {str(e)}"}, status=505)
     except Exception as e:
         print(f"Error en get_2fa_setup: {str(e)}")
         traceback.print_exc()
-        return JsonResponse({"error": "Error interno del servidor."}, status=500)
+        return JsonResponse({"error": "Error interno del servidor."}, status=506)
 
 @api_view(["POST"])
 def verify_2fa_setup(request):
@@ -284,7 +284,7 @@ def verify_2fa_setup(request):
             except Exception as e:
                 print(f"Error al configurar dispositivo TOTP: {str(e)}")
                 traceback.print_exc()
-                return JsonResponse({"error": f"Error al configurar dispositivo TOTP: {str(e)}"}, status=500)
+                return JsonResponse({"error": f"Error al configurar dispositivo TOTP: {str(e)}"}, status=501)
         
         # Comportamiento original (solo como fallback)
         if verify_otp_code(user, otp_code):
@@ -302,7 +302,7 @@ def verify_2fa_setup(request):
     except Exception as e:
         print(f"Error general en verify_2fa_setup: {str(e)}")
         traceback.print_exc()
-        return JsonResponse({"error": "Error interno del servidor."}, status=500)
+        return JsonResponse({"error": "Error interno del servidor."}, status=507)
 
 @api_view(["GET"])
 def get_csrf_token(request):
