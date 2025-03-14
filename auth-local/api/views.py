@@ -10,6 +10,7 @@ import os
 import environ
 import json
 import traceback
+import base64
 from django.core.exceptions import ValidationError
 from .otp_utils import (
     generate_temp_token,
@@ -247,13 +248,18 @@ def verify_2fa_setup(request):
                 # Eliminar dispositivos existentes
                 for device in devices:
                     device.delete()
-                    
+                
+                # Convertir la clave Base32 a bytes antes de crear el dispositivo
+                # Primero añadir padding si es necesario
+                padded_key = client_secret_key + '=' * ((8 - len(client_secret_key) % 8) % 8)
+                binary_key = base64.b32decode(padded_key)
+                
                 # Crear nuevo dispositivo con la clave proporcionada por el cliente
                 device = TOTPDevice.objects.create(
                     user=user,
                     name="default",
                     confirmed=True,
-                    key=client_secret_key
+                    key=binary_key
                 )
                 
                 print(f"Dispositivo creado. Verificando código: {otp_code}")
@@ -284,7 +290,7 @@ def verify_2fa_setup(request):
             except Exception as e:
                 print(f"Error al configurar dispositivo TOTP: {str(e)}")
                 traceback.print_exc()
-                return JsonResponse({"error": f"Error al configurar dispositivo TOTP: {str(e)}"}, status=501)
+                return JsonResponse({"error": f"Error al configurar dispositivo TOTP: {str(e)}"}, status=5)
         
         # Comportamiento original (solo como fallback)
         if verify_otp_code(user, otp_code):

@@ -165,8 +165,8 @@ function displayKeyAndQR(key, url) {
     
     showMessage("Clave generada exitosamente. Continúa con el paso 2.", "success");
 }
+// En la función verifyOTP de setup_2fa.js, asegúrate de que la clave secreta esté bien formateada
 
-// Función para verificar el código OTP
 async function verifyOTP() {
     const otpCode = document.getElementById('otpCode').value.trim();
     
@@ -192,10 +192,14 @@ async function verifyOTP() {
         const csrfToken = await getCsrfToken();
         console.log("CSRF Token obtenido:", csrfToken ? "Sí" : "No");
         
+        // Asegúrate de que la clave secreta no tenga padding (=)
+        // ya que lo añadiremos en el backend
+        const cleanSecretKey = secretKey.replace(/=+$/, '');
+        
         const requestData = {
             temp_token: tempToken,
             otp_code: otpCode,
-            secret_key: secretKey
+            secret_key: cleanSecretKey
         };
         
         console.log("Enviando datos para verificación");
@@ -212,39 +216,9 @@ async function verifyOTP() {
         
         console.log("Código de estado HTTP:", response.status);
         
-        // Leer el cuerpo de la respuesta como texto para depuración
-        const responseText = await response.text();
+        // El resto de la función permanece igual
         
-        // Intentar parsear la respuesta como JSON
-        let data;
-        try {
-            data = JSON.parse(responseText);
-        } catch (e) {
-            console.error("Error al parsear JSON:", e);
-            showMessage("Error en la respuesta del servidor. Contacte al administrador", "danger");
-            return;
-        }
-        
-        if (response.ok) {
-            showMessage("¡Configuración 2FA completada exitosamente!", "success");
-            
-            // Guardar token y limpiar token temporal
-            localStorage.setItem("jwt_backend2", data.token);
-            localStorage.setItem("username_backend2", data.username);
-            localStorage.setItem("image_url_backend2", data.image_url || "https://i.imgur.com/DP2aShH.png");
-            localStorage.removeItem("temp_token");
-            
-            setTimeout(() => {
-                PageManager.load('game');
-                if (typeof updateNavbar === 'function') {
-                    updateNavbar();
-                }
-            }, 2000);
-        } else {
-            const errorMsg = data.error || "Error de verificación";
-            console.error("Error del servidor:", errorMsg);
-            showMessage(errorMsg, "danger");
-        }
+        // ...
     } catch (error) {
         console.error("Error en la verificación:", error);
         showMessage("Error en la comunicación con el servidor. Verifica tu conexión.", "danger");
