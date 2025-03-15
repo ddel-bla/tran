@@ -6,9 +6,12 @@ import environ
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+SECRET_KEY = os.getenv("SECRET_KEY")
 
+# Configuración para desarrollo
+DEBUG = True  # Cambiar a True para ver errores detallados durante desarrollo
 
-ALLOWED_HOSTS = ["localhost", "auth-42", "auth-local"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django_prometheus',
@@ -40,18 +43,23 @@ MIDDLEWARE = [
 ]
 
 # Configuración de seguridad para producción - desactivado temporalmente para desarrollo
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True 
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_HSTS_SECONDS = 31536000 
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_BROWSER_XSS_FILTER = True 
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    CSRF_COOKIE_SECURE = True 
+    SESSION_COOKIE_SECURE = True 
+else:
+    # En desarrollo, permitir conexiones no seguras para pruebas
+    SECURE_SSL_REDIRECT = False
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
 
-SECURE_SSL_REDIRECT = True 
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-SECURE_HSTS_SECONDS = 31536000 
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-SECURE_BROWSER_XSS_FILTER = True 
-SECURE_CONTENT_TYPE_NOSNIFF = True
-CSRF_COOKIE_SECURE = True 
-SESSION_COOKIE_SECURE = True 
-
-
+# Siempre mantener estas configuraciones
 CSRF_COOKIE_HTTPONLY = False 
 CSRF_COOKIE_SAMESITE = 'None' 
 SESSION_COOKIE_SAMESITE = 'None' 
@@ -70,8 +78,7 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
 CSRF_TRUSTED_ORIGINS = [
     "https://localhost:8443",
     "https://localhost:8441",
-    "https://auth-42:8442",
-    "https://auth-local:8441"
+    "http://localhost:8080",  # Para desarrollo
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -114,7 +121,7 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # Configuración de la base de datos
 env = environ.Env()
 environ.Env.read_env(os.path.join(os.path.dirname(__file__), '../.env'))
-SECRET_KEY = env("SECRET_KEY")
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

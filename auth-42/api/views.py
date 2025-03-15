@@ -9,6 +9,7 @@ from django.contrib.auth import get_user_model
 import environ
 from urllib.parse import quote
 
+
 env = environ.Env()
 environ.Env.read_env(os.path.join(os.path.dirname(__file__), '../.env'))
 
@@ -20,11 +21,8 @@ CLIENT_SECRET = env('CLIENT_SECRET')
 REDIRECT_URI = env('REDIRECT_URI')
 encoded_redirect_uri = quote(REDIRECT_URI, safe='')
 
-
-LOGGED_IN_USERS = {}
-
 def generate_jwt(user):
-    """Genera un token JWT para un usuario"""
+    """Genera un token JWT para el usuario autenticado incluyendo la imagen"""
     payload = {
         'id': user.id,
         'username': user.username,
@@ -35,17 +33,14 @@ def generate_jwt(user):
     return jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
 def login_42(request):
-    """Redirige al usuario a la autenticación de 42"""
     auth_url = f"https://api.intra.42.fr/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={encoded_redirect_uri}&response_type=code"
     return redirect(auth_url)
 
 @api_view(['GET'])
 def callback_42(request):
     code = request.GET.get("code")
-    error = request.GET.get("error")
-
-    if error or not code:
-        return redirect("https://localhost:8443") 
+    if not code:
+        return JsonResponse({"error": "No code provided"}, status=400)
 
     token_url = "https://api.intra.42.fr/oauth/token"
     token_data = {
@@ -94,14 +89,13 @@ def callback_42(request):
 
     jwt_token = generate_jwt(user)
 
-    LOGGED_IN_USERS[user.id] = jwt_token
-
     redirect_url = f"https://localhost:8443/?token={jwt_token}&auth=42&username={login}&image_url={image_url}"
     return redirect(redirect_url)
 
+
+
 @api_view(["GET"])
 def get_user_info(request):
-    """Devuelve la información del usuario autenticado"""
     auth_header = request.headers.get("Authorization")
 
     if not auth_header or not auth_header.startswith("Bearer "):
@@ -112,12 +106,10 @@ def get_user_info(request):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         user = User.objects.get(id=payload["id"])
-
         return JsonResponse({
             "username": user.username,
-            "image_url": user.image_url
+            "image_url": user.image_url  
         })
-    
     except jwt.ExpiredSignatureError:
         return JsonResponse({"error": "Token expired"}, status=401)
     except jwt.DecodeError:
@@ -125,9 +117,9 @@ def get_user_info(request):
     except User.DoesNotExist:
         return JsonResponse({"error": "User not found"}, status=404)
 
-@api_view(["GET"])
-def get_user_token(request):
-    """Devuelve el token JWT del usuario autenticado, solo si está logueado"""
+
+@api_view(["DELETE"])
+def logout_and_delete_user(request):
     auth_header = request.headers.get("Authorization")
 
     if not auth_header or not auth_header.startswith("Bearer "):
@@ -137,36 +129,14 @@ def get_user_token(request):
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-        user_id = payload.get("id")
+        user = User.objects.get(id=payload["id"])
+        user.delete()
 
-        if user_id not in LOGGED_IN_USERS or LOGGED_IN_USERS[user_id] != token:
-            return JsonResponse({"error": "Unauthorized"}, status=401)
-
-        return JsonResponse({"token": token})
+        return JsonResponse({"message": "User deleted successfully"}, status=200)
     
     except jwt.ExpiredSignatureError:
         return JsonResponse({"error": "Token expired"}, status=401)
     except jwt.DecodeError:
         return JsonResponse({"error": "Invalid token"}, status=401)
-
-@api_view(["POST"])
-def logout_user(request):
-    auth_header = request.headers.get("Authorization")
-
-    if not auth_header or not auth_header.startswith("Bearer "):
-        return JsonResponse({"error": "Unauthorized"}, status=401)
-
-    token = auth_header.split(" ")[1]
-
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-        user_id = payload.get("id")
-        if user_id in LOGGED_IN_USERS:
-            del LOGGED_IN_USERS[user_id]
-
-        return JsonResponse({"message": "Logout exitoso"}, status=200)
-    
-    except jwt.ExpiredSignatureError:
-        return JsonResponse({"error": "Token expired"}, status=401)
-    except jwt.DecodeError:
-        return JsonResponse({"error": "Invalid token"}, status=401)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User not found"}, status=404)

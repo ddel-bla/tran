@@ -13,4 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . ./
 
-CMD ["gunicorn", "--certfile=/etc/ssl/certs/cert.crt", "--keyfile=/etc/ssl/certs/cert.key", "--bind", "0.0.0.0:8442", "api.wsgi:application"]
+CMD ["gunicorn", "--certfile=/etc/ssl/certs/cert.crt", "--keyfile=/etc/ssl/certs/cert.key", "--bind", "0.0.0.0:443", "api.wsgi:application"]
+
+
+

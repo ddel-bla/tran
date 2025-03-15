@@ -10,5 +10,23 @@
     <div id="data"></div>
 
     <a href="index.html">Pong</a>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        const dataDiv = document.getElementById('data');
+            fetch('http://localhost:8000/?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    let output = '';
+                    data.forEach(item => {
+                        output += `<p>Nombre: ${item.name} - Fecha de creación: ${item.created}</p>`;
+                    });
+                    dataDiv.innerHTML = output;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    dataDiv.textContent = 'No se pudo cargar los datos.';
+                });
+        });
+    </script>
 </body>
 </html>
