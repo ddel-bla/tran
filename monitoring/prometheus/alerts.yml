@@ -1,0 +1,11 @@
+groups:
+- name: http_requests_alerts
+  rules:
+  - alert: HighRequestRate
+    expr: increase(django_http_requests_total_by_method_total{method="GET"}[1m]) > 100
+    for: 1m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Alta tasa de peticiones HTTP"
+      description: "La tasa de peticiones HTTP GET ha superado 100 en el último minuto."

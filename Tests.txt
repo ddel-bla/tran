@@ -1,0 +1,1 @@
+while true; do curl -k -s https://localhost:8442/login > /dev/null; sleep 0.1; done

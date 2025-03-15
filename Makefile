@@ -1,6 +1,6 @@
 # Variables
 CONTAINERS_NAMES=apache-web postgres auth-42 auth-local
-IMAGES_NAMES=ft_trascendence-frontend ft_trascendence-backend postgres:15 ft_trascendence-auth-42 ft_trascendence-auth-db-api
+IMAGES_NAMES=ft_trascendence-frontend ft_trascendence-backend postgres:15 ft_trascendence-auth-42 ft_trascendence-auth-db-api ft_trascendence-grafana ft_trascendence-db ft_trascendence-prometheus
 VOLUME_NAME=postgres_data
 
 # Activar BuildKit para la construcción de imágenes
