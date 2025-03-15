@@ -10,11 +10,8 @@ const PageManager = (() => {
         const temp_token = localStorage.getItem("temp_token");
     
         if (!jwt_backend && !jwt_backend2 && !temp_token && !PUBLIC_PAGES.includes(page)) {
-            console.warn("⚠️ Intento de acceso no autorizado. Redirigiendo a login.");
-            PageManager.load("login");
-            return;
-        }
-    
+			return PageManager.load("login");
+}   
         if (page === currentPage) {
             return;
         }
@@ -53,7 +50,6 @@ const PageManager = (() => {
     
             if (callback) callback();
         } catch (error) {
-            console.error("Error loading page:", error);
         }
     }
 
@@ -159,7 +155,6 @@ function loadSettings() {
         backgroundButtons.forEach(button => button.classList.remove('selected'));
         
         const selectedButton = document.querySelector(`.background-option[data-color="${savedBackground}"]`);
-        console.log("Selected button bg" + selectedButton)
         if (selectedButton) {
             selectedButton.classList.add('selected');
         }

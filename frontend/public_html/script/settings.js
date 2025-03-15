@@ -95,11 +95,8 @@ async function loadTranslations() {
         if (translations[savedLanguage]) {
             changeLanguage(savedLanguage);
             localStorage.setItem("preferredLanguage", savedLanguage)
-        } else {
-            console.error("Idioma no encontrado en traducciones:", savedLanguage);
         }
     } catch (error) {
-        console.error('Error loading translations:', error);
     }
 }
 
@@ -109,7 +106,6 @@ function changeLanguage(language) {
     const translation = translations[language];
 
     if (!translation) {
-        //console.warn('Idioma no encontrado:', language);
         return;
     }
 
